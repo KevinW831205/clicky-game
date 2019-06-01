@@ -1,26 +1,70 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Image from "./components/Image";
+import Score from "./components/Score";
+import initialGameState from "./initialGameState.json"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+
+  state = {
+    imageState: initialGameState,
+    currentScore: 0,
+    highScore: 12,
+  }
+
+  updateScore = () => {
+
+  }
+
+  updateHighScore = () => {
+
+  }
+
+  resetScore = () => {
+
+  }
+
+  imageClick = id => {
+    console.log(this.state.imageState[id - 1].clicked)
+    if (!this.state.imageState[id - 1].clicked) {
+      console.log("score+1")
+      let newState = this.state.imageState;
+      newState[id - 1].clicked = true;
+      this.setState(newState);
+
+    } else {
+      console.log("lose")
+    }
+
+
+  }
+
+  render() {
+    return (
+      <div>
+        <Score
+          highScore={this.state.highScore}
+          currentScore={this.state.currentScore}
+        ></Score>
+        {this.state.imageState.map(data => {
+          return (
+            <Image
+              id={data.id}
+              key={data.id}
+              image={data.image}
+              clicked={data.clicked}
+              imageClick={this.imageClick}
+            />
+          )
+        })
+
+        }
+
+      </div>
+    )
+  }
+
+
 }
 
 export default App;
