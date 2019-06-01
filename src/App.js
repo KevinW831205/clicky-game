@@ -4,39 +4,59 @@ import Score from "./components/Score";
 import initialGameState from "./initialGameState.json"
 
 
+// Officehours initialGameState json is being changed.
+
 class App extends React.Component {
 
   state = {
     imageState: initialGameState,
     currentScore: 0,
-    highScore: 12,
+    highScore: 0,
   }
 
-  updateScore = () => {
-
+  increaseScore = () => {
+    let currentScore = this.state.currentScore;
+    currentScore += 1;
+    this.setState({ currentScore: currentScore });
+    // highscore update if current score is greater than the highscore
+    currentScore > this.state.highScore && this.setState({ highScore: currentScore })
   }
 
-  updateHighScore = () => {
-
-  }
-
-  resetScore = () => {
-
+  resetGame = () => {
+    const resetedState = this.state.imageState.map(data => {
+      data.clicked = false;
+      return data
+    })
+    this.setState({
+      currentScore: 0,
+      imageState: resetedState
+    })
   }
 
   imageClick = id => {
-    console.log(this.state.imageState[id - 1].clicked)
-    if (!this.state.imageState[id - 1].clicked) {
+
+    const index = this.state.imageState.findIndex(data => data.id === id);
+
+    console.log(index)
+    if (!this.state.imageState[index].clicked) {
       console.log("score+1")
       let newState = this.state.imageState;
-      newState[id - 1].clicked = true;
+      newState[index].clicked = true;
       this.setState(newState);
-
+      this.increaseScore();
+      this.shuffleImage();
     } else {
       console.log("lose")
+      this.resetGame();
+      this.shuffleImage();
     }
+  }
 
-
+  shuffleImage = () => {
+    let shuffleState = this.state.imageState;
+    shuffleState.sort(() => Math.random() - 0.5);
+    console.log(shuffleState);
+    this.setState({ imageState: shuffleState });
   }
 
   render() {
