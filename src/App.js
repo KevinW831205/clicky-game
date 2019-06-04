@@ -3,6 +3,7 @@ import Container from "./components/Container"
 import Image from "./components/Image";
 import Score from "./components/Score";
 import initialGameState from "./initialGameState.json";
+import "./App.css"
 
 // Materialize things 
 // import Button from "./components/Button";
@@ -14,26 +15,27 @@ import initialGameState from "./initialGameState.json";
 import EndModal from "./components/EndModal";
 
 class App extends React.Component {
-
-  // clone 
   state = {
-    imageState: initialGameState,
+    imageState: initialGameState, //game state containing images and whether if the image is clicked
     currentScore: 0,
     highScore: 0,
-    modalShow: false
+    modalShow: false   //modal display if true
   }
 
   //Modal functions
   handleClose = () => {
     this.setState({ modalShow: false });
+    this.resetGame();
   }
 
   handleShow = () => {
     this.setState({ modalShow: true });
   }
+  //end modal funcitons
 
   //Game functions
   increaseScore = () => {
+    //function to increase score and update highscore
     let currentScore = this.state.currentScore;
     currentScore += 1;
     this.setState({ currentScore: currentScore });
@@ -69,7 +71,6 @@ class App extends React.Component {
       //if clicked is true
       console.log("lose")
       this.handleShow();
-      this.resetGame();
       this.shuffleImage();
     }
   }
@@ -88,8 +89,9 @@ class App extends React.Component {
         <Score
           highScore={this.state.highScore}
           currentScore={this.state.currentScore}
-        ></Score>
-        <div className="row">
+        />
+        
+        <div className="row" id="gameWindow">
           {this.state.imageState.map(data => {
             return (
               <Image
@@ -108,6 +110,7 @@ class App extends React.Component {
           show={this.state.modalShow}
           handleClose={this.handleClose}
           handleShow={this.handleShow}
+          score={this.state.currentScore}
         />
 
         {/* modal test button */}
@@ -131,6 +134,7 @@ class App extends React.Component {
 
         {/* <Button></Button>
         <Modal></Modal> */}
+
 
       </Container>
     )
