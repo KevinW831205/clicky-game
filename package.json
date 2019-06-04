@@ -1,9 +1,11 @@
 {
   "name": "clicky-game",
+  "homepage": "https://kevinw831205.github.io/clicky-game/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
+    "gh-pages": "^2.0.1",
     "materialize-css": "^1.0.0",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
@@ -12,6 +14,8 @@
     "react-scripts": "3.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -b master -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
